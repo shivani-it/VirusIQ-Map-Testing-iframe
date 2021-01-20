@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>  
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>VirusIQ-MapTesting</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1Ij923cEOwsh8FEkAbd1iKgni6_qL4Nk" type="text/javascript"></script>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <script src="js/Control.FullScreen.js"></script>
+        <script src="js/script.js"></script>
+
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"  type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+	    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+        <link rel="stylesheet" href="css/Control.FullScreen.css" />
+
+            
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="slds-scope">
+        <header class="container-fluid header-wrapper">
+            <div class="row header-action-group">
+                <!-- <button class="btn col-md-2 dropdown-toggle filter-btn d-sm-none d-md-block" data-toggle="dropdown" id="lab_filter_button" type="button" >Filter</button> -->
+                <button class="btn filter-btn col-1 btn-primary" id="lab_filter_button" type="button" ><i class="fa fa-filter"></i> <span class="filter-btn-label">Filter</span></button>
+                <div class="search-wrapper input-group rounded col-11 col-md-9">
+                    <input type="search" class="form-control rounded" placeholder="Search by County or Zip Code" aria-label="Search"
+                        aria-describedby="search-addon" />
+                    <span class="input-group-text border-0" id="search-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+                <button class="btn btn-primary register-btn col-12 col-md-2" id="lab_filter_button" type="button">Register Lab</button>
+            </div>
+            
+            <!-- drop down option default hidden -->
+            <div class="filter-container container-fluid" role="menu" aria-labelledby="lab_filter_button">
+                <div class="row filter-option-wrapper">
+                    <div class="col-md-3 text-left container-fluid">
+                        <p class="filter-option-heading col-12">Services:</p>
+                        <form>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="full-service" value="Walk-in" id="walk-in-test" /> 
+                                <span class="filter-text">
+                                    Walk-in
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="full-service-test" value="full-service" id="driven-in-test" /> 
+                                
+                                <span class="filter-text">
+                                    Drive-in
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="at-home-test" value="enhanced-service" id="at-home-test" />
+                                <span class="filter-text"> 
+                                    At-Home Rapid Test
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="full-service-test" value="full-service" id="at-home-sample" /> 
+                                <span class="filter-text">
+                                    At-home Sample Collection
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="communitytest" value="communitytest" id="community-test" /> 
+                                <span class="filter-text">
+                                    Community Test Center
+                                </span>
+                            </label>
+                        </form>
+                    </div>
+                    <div class="col-md-3 container-fluid">
+                        <p class="filter-option-heading col-12">Tests:</p>
+                        <form>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="Antigen" id="Antigen" /> 
+                                <span class="filter-text">
+                                    Antigen Tests
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="Serology" id="Serology" /> 
+                                <span class="filter-text">
+                                    Serology Tests
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="PCR Molecular" id="PCR_Molecular" /> 
+                                <span class="filter-text">
+                                    PCR Molecular Tests
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="Pooled Testing" id="pooled-testing" /> 
+                                <span class="filter-text">
+                                    Pooled Testing
+                                </span>
+                            </label>
+                        </form>
+                    </div>
+                    <div class="col-md-3 container-fluid">
+                        <p class="filter-option-heading col-12">Sample Type:</p>
+                        <form>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="saliva sample" id="saliva" /> 
+                                <span class="filter-text">
+                                    Saliva
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="Oral Swab" id="oral_swab_sample" />
+                                <span class="filter-text">
+                                    Oral Swab
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="Nasal Swab" id="nasal_swab_sample" />
+                                <span class="filter-text">
+                                    Nasal Swab
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="Serology_sample" id="serology_sample" /> 
+                                <span class="filter-text">
+                                    Serology
+                                </span>
+                            </label>						
+                        </form>
+                    </div>
+                    <div class="col-md-3 container-fluid">
+                        <p class="filter-option-heading col-12">Turnaround Time:</p>
+                        <form>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="less than 30 mins" id="less_than_30mins" /> 
+                                <span class="filter-text">
+                                    less than 30 mins
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="less than 24hrs" id="less_than_24hrs" /> 
+                                <span class="filter-text">
+                                    less than 24hrs
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="24 - 48hrs" id="24-48hrs" /> 
+                                <span class="filter-text">
+                                    24-48hrs
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="48-72hrs" id="48-72hrs" />
+                                <span class="filter-text">
+                                    48-72hrs
+                                </span>
+                            </label>
+                            <label class="filter-option-label col-12">
+                                <input type="checkbox" class="filter-checkbox" name="fl-testype" value="72 - 96hrs" id="72-96hrs" />
+                                <span class="filter-text">
+                                    72-96hrs
+                                </span>
+                            </label>
+                        </form>
+                    </div>
+                    <div class="btn btn-primary col-md-12 apply_filters_btn"  id="apply_filters_btn" type="button" onclick="" >Apply Filters</button></div>
+                </div>
+            </div>
+        </header>
+        <div class="container-fluid card-map-wrapper">
+            <div class="row">
+                <div class="col-md-3 col-12 card-wrapper">
+                    <div class="total-labs container-fluid">
+                        <div class="row">
+                            <span class="col-10">Total Labs:</span>
+                            <span class="lab-count col-2">0</span>
+                        </div>
+                    </div>
+                    <div class="card-container flex-column" id="lab-list-screen">                      
+
+                    </div>
+                </div>
+                <div class="col-md-9  col-12" id="map">
+                </div>
+            </div>
+        </div>
+
+        <div class="spinner-wrapper">
+            <div class="loader-wrapper">
+                <div class="spinner-border"></div>
+                <span class="loading-text">Loading...</span>
+            </div>
+        </div>
+    </body>
+</html>
